@@ -1,4 +1,16 @@
 
+<?php
+        session_start();
+        if(!isset($_SESSION['mySession'])){
+            header('location: login.php');
+        }else{
+          if($_SESSION['mySession'] != 'admin'){
+            header('location: index.php');
+          }
+        }
+    ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +40,7 @@ a{
 <body>
 <div class="container">
   <div class="row">
-    <div class="col-sm-6"><h1><a href="index.php">TRANG CHỦ </a></div>
+    <div class="col-sm-6"><h1><a href="product.php">TRANG CHỦ </a></div>
     <div class="col-sm-4">
     <form action="" method="POST">
     <div class="input-group input-group-sm mb-3">
@@ -52,6 +64,7 @@ a{
       <th scope="col">Image</th>
       <th scope="col">Price</th>
       <th scope="col">Warranty</th>
+      <th scope="col">Manage</th>
     </tr>
   </thead>
   
@@ -78,28 +91,18 @@ a{
             <td> <img src="img/product/<?php echo $row['image']?>" alt="" width="50" height="60"></td>
             <td><?php echo $row['price'] ?></td>
             <td><?php echo $row['warranty'] ?></td>
-        </tr>
+            <td><a href="delete.php?this_id=<?php echo $row['id']?>"> <button class="btn btn-secondary btn-sm" >Xóa</button></a>
+            <span><a href="edit.php?this_id=<?php echo $row['id']?>"><button class="btn btn-secondary btn-sm" >Sửa</button></a></span></td>
+    </tr>
 <tbody>
 <?php } ?>
   </tbody>
 </table>
   </div>
 </div>
+<span><a href="add-product.php"><button class="btn btn-secondary btn-sm" >Thêm SP</button></a></span>
 </body>
 </html>
 
-<?php 
-    include "connect.php";
-    session_start();
-    if(!isset($_SESSION['mySession'])){
-        header('location:login.php');
-    }
-?>
 
 
-<!-- 
-1. Sửa sản phẩm, khi bấm sửa mà không upload hình -> mất hình
-2. Sửa sản phẩm không sửa hết => bị mất dữ liệu
-3. Thêm sản phẩm mà bấm load -> bị tự add dữ liệu rỗng
-4. Tính năng bình luận
--->
